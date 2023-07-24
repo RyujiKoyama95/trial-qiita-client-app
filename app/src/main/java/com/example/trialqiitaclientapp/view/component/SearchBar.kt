@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchView(
+fun SearchBar(
     textFieldState: MutableState<TextFieldValue>,
     onSubmit: (text: String) -> Unit
 ) {
