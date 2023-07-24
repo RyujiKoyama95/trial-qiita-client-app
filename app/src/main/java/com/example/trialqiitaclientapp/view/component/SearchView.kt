@@ -64,6 +64,7 @@ fun SearchView(
         },
         singleLine = true,
         keyboardActions = KeyboardActions {
+            // キーボードの完了ボタン等を押下する契機で発火
             focusManager.clearFocus()
             onSubmit(textFieldState.value.text)
         }
