@@ -23,10 +23,12 @@ fun SearchScreen(navController: NavController, vm: SearchViewModel) {
     Scaffold {
         Column {
             val textFieldState = remember { mutableStateOf(TextFieldValue("")) }
-            SearchBar(textFieldState = textFieldState) {
-                // Todo: itで入力されたテキストにアクセスできる理由がよくわからん
-                vm.searchArticle(it)
-            }
+            SearchBar(
+                textFieldState = textFieldState,
+                onSubmit = { text ->
+                    vm.searchArticle(text)
+                }
+            )
 
             val observerArticles = vm.articles.observeAsState()
             observerArticles.value?.let { articles ->
