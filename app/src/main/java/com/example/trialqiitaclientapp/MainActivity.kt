@@ -45,14 +45,21 @@ fun MainNavHost() {
     val vm = viewModel<SearchViewModel>()
 
     NavHost(navController = navController, startDestination = "search") {
-        composable("search"){ SearchScreen(navController = navController, vm = vm) }
-        // Todo: この辺の処理の流れがよくわからないので確認
-        composable("detail/{url}"){
-            it.arguments?.getString("url")?.let { url ->
-                DetailScreen(url = url)
-            } ?: run {
-                DetailScreen(url = "https://qiita.com/")
+        composable(
+            route = "search",
+            content = {
+                SearchScreen(navController = navController, vm = vm)
             }
-        }
+        )
+        composable(
+            route = "detail/{url}",
+            content = { navBackStackEntry ->
+                navBackStackEntry.arguments?.getString("url")?.let { url ->
+                    DetailScreen(url = url)
+                } ?: run {
+                    DetailScreen(url = "https://qiita.com/")
+                }
+            }
+        )
     }
 }
