@@ -13,6 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.trialqiitaclientapp.ui.theme.TrialQiitaClientAppTheme
+import com.example.trialqiitaclientapp.view.Detail
+import com.example.trialqiitaclientapp.view.Search
 import com.example.trialqiitaclientapp.view.detail.DetailScreen
 import com.example.trialqiitaclientapp.view.search.SearchScreen
 import com.example.trialqiitaclientapp.view.search.SearchViewModel
@@ -41,13 +43,13 @@ fun MainNavHost() {
 
     NavHost(navController = navController, startDestination = "search") {
         composable(
-            route = "search",
+            route = Search.root,
             content = {
                 SearchScreen(navController = navController, vm = vm)
             }
         )
         composable(
-            route = "detail/{url}",
+            route = Detail.root,
             content = { navBackStackEntry ->
                 navBackStackEntry.arguments?.getString("url")?.let { url ->
                     DetailScreen(url = url)
