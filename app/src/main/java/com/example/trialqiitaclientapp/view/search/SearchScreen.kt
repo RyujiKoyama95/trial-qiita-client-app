@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.NavController
+import com.example.trialqiitaclientapp.model.Article
 import com.example.trialqiitaclientapp.view.component.SearchBar
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -19,27 +20,30 @@ import java.nio.charset.StandardCharsets
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SearchScreen(navController: NavController, vm: SearchViewModel) {
+fun SearchScreen(
+    articles: List<Article>,
+    onClickArticle: (String) -> Unit,
+    onClickSearch: (String) -> Unit
+) {
     Scaffold {
         Column {
             val textFieldState = remember { mutableStateOf(TextFieldValue("")) }
             SearchBar(
                 textFieldState = textFieldState,
                 onSubmit = { text ->
-                    vm.searchArticle(text)
+                    onClickSearch(text)
                 }
             )
 
-            val observerArticles = vm.articles.observeAsState()
-            observerArticles.value?.let { articles ->
-                LazyColumn {
-                    items(articles) {article ->
-                        SearchResultCell(article = article) {
-                            val encoderUrl =
-                                URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
-                            navController.navigate("detail/$encoderUrl")
-                        }
-                    }
+            LazyColumn {
+                items(articles) {article ->
+                    val encoderUrl =
+                        URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
+                    val url = "detail/$encoderUrl"
+                    SearchResultCell(
+                        article = article,
+                        onClickCell = { onClickArticle(url) }
+                    )
                 }
             }
         }

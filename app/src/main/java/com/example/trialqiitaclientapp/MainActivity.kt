@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -40,12 +41,17 @@ class MainActivity : ComponentActivity() {
 fun MainNavHost() {
     val navController = rememberNavController()
     val vm = viewModel<SearchViewModel>()
+    val observerArticles = vm.articles.observeAsState()
 
     NavHost(navController = navController, startDestination = "search") {
         composable(
             route = Search.root,
             content = {
-                SearchScreen(navController = navController, vm = vm)
+                SearchScreen(
+                    articles = observerArticles.value ?: listOf(),
+                    onClickArticle = { url -> navController.navigate(url) },
+                    onClickSearch = { query -> vm.searchArticle(query) }
+                )
             }
         )
         composable(

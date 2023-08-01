@@ -24,12 +24,12 @@ import com.example.trialqiitaclientapp.model.Article
 @Composable
 fun SearchResultCell(
     article: Article,
-    onClick: () -> Unit
+    onClickCell: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)
-            .clickable { onClick() }
+            .clickable { onClickCell() }
     ) {
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = article.title)
